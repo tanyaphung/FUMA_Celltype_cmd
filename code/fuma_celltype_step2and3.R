@@ -1,14 +1,17 @@
 library(data.table)
 library(kimisc)
+library(dplyr)
 
-filedir="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/data/job442205/"
+filedir="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/data/gwas_5_hypothalamus/"
 adjPmeth="bonferroni"
 magmadir="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/code/"
 magmafiles="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/data/MAGMA"
 
-datasets = c("PsychENCODE_Developmental", "PsychENCODE_Adult", "GSE97478_Mouse_Striatum_Cortex", "GSE106707_Mouse_Striatum_Cortex", "Allen_Human_LGN_level2", "Allen_Human_MTG_level2", "Allen_Mouse_ALM2_level2", "Allen_Mouse_LGd2_level2", "Allen_Mouse_VISp2_level2", "Allen_Mouse_ALM_level2", "Allen_Mouse_LGd_level2", "Allen_Mouse_VISp_level2", "DroNc_Human_Hippocampus", "DroNc_Mouse_Hippocampus", "DropViz_all_level2", "DropViz_CB_level2", "DropViz_ENT_level2", "DropViz_FC_level2", "DropViz_GP_level2", "DropViz_HC_level2", "DropViz_PC_level2", "DropViz_SN_level2", "DropViz_STR_level2", "DropViz_TH_level2", "GSE100597_Mouse_Embryo", "GSE104276_Human_Prefrontal_cortex_all_ages", "GSE104276_Human_Prefrontal_cortex_per_ages", "GSE106678_Mouse_Cortex", "GSE67835_Human_Cortex", "GSE67835_Human_Cortex_woFetal", "GSE81547_Human_Pancreas", "GSE82187_Mouse_Striatum", "GSE84133_Human_Pancreas", "GSE84133_Mouse_Pancreas", "GSE87544_Mouse_Hypothalamus", "GSE89164_Mouse_Hindbrain", "GSE89232_Human_Blood", "GSE92332_Mouse_Epithelium_SMARTseq", "GSE92332_Mouse_Epithelium_droplet", "GSE93374_Mouse_Arc_ME_level2", "GSE93374_Mouse_Arc_ME_neurons", "GSE98816_Mouse_Brain_Vascular", "GSE99235_Mouse_Lung_Vascular", "Linnarsson_GSE101601_Human_Temporal_cortex", "Linnarsson_GSE101601_Mouse_Somatosensory_cortex", "Linnarsson_GSE103840_Mouse_Dorsal_horn", "Linnarsson_GSE104323_Mouse_Dentate_gyrus", "Linnarsson_GSE59739_Mouse_Dorsal_root_ganglion_level2", "Linnarsson_GSE60361_Mouse_Cortex_Hippocampus_level2", "Linnarsson_GSE67602_Mouse_Skin_Epidermis", "Linnarsson_GSE74672_Mouse_Hypothalamus_Neurons_level2", "Linnarsson_GSE75330_Mouse_Oligodendrocytes", "Linnarsson_GSE76381_Human_Midbrain", "Linnarsson_GSE76381_Mouse_Midbrain", "Linnarsson_GSE78845_Mouse_Ganglia", "Linnarsson_GSE95315_Mouse_Dentate_gyrus", "Linnarsson_GSE95752_Mouse_Dentate_gyrus", "Linnarsson_MouseBrainAtlas_level5", "Linnarsson_MouseBrainAtlas_level6_rank2", "MouseCellAtlas_all", "MouseCellAtlas_Adult_all", "MouseCellAtlas_Bladder", "MouseCellAtlas_Bone_Marrow", "MouseCellAtlas_Brain", "MouseCellAtlas_Embryo_all", "MouseCellAtlas_Embryonic_Mesenchyme", "MouseCellAtlas_Embryonic_Stem_Cell", "MouseCellAtlas_Fetal_Brain", "MouseCellAtlas_Fetal_Intestine", "MouseCellAtlas_Fetal_Liver", "MouseCellAtlas_Fetal_Lung", "MouseCellAtlas_Fetal_Stomache", "MouseCellAtlas_Kidney", "MouseCellAtlas_Liver", "MouseCellAtlas_Lung", "MouseCellAtlas_Mammary_Gland", "MouseCellAtlas_Mesenchymal_Stem_Cell_Cultured", "MouseCellAtlas_Muscle", "MouseCellAtlas_Neonatal_Calvaria", "MouseCellAtlas_Neonatal_Heart", "MouseCellAtlas_Neonatal_Muscle", "MouseCellAtlas_Neonatal_Rib", "MouseCellAtlas_Neonatal_Skin", "MouseCellAtlas_Neonatal_all", "MouseCellAtlas_Ovary", "MouseCellAtlas_Pancreas", "MouseCellAtlas_Peripheral_Blood", "MouseCellAtlas_Placenta", "MouseCellAtlas_Prostate", "MouseCellAtlas_Small_Intestine", "MouseCellAtlas_Spleen", "MouseCellAtlas_Stomach", "MouseCellAtlas_Testis", "MouseCellAtlas_Thymus", "MouseCellAtlas_Trophoblast_Stem_Cell", "MouseCellAtlas_Uterus", "PBMC_10x_68k", "TabulaMuris_FACS_all", "TabulaMuris_FACS_Aorta", "TabulaMuris_FACS_Bladder", "TabulaMuris_FACS_Brain", "TabulaMuris_FACS_Brain_Myeloid", "TabulaMuris_FACS_Brain_Non-Myeloid", "TabulaMuris_FACS_Diaphragm", "TabulaMuris_FACS_Fat", "TabulaMuris_FACS_Heart", "TabulaMuris_FACS_Kidney", "TabulaMuris_FACS_Large_Intestine", "TabulaMuris_FACS_Limb_Muscle", "TabulaMuris_FACS_Liver", "TabulaMuris_FACS_Lung", "TabulaMuris_FACS_Mammary_Gland", "TabulaMuris_FACS_Marrow", "TabulaMuris_FACS_Pancreas", "TabulaMuris_FACS_Skin", "TabulaMuris_FACS_Spleen", "TabulaMuris_FACS_Thymus", "TabulaMuris_FACS_Tongue", "TabulaMuris_FACS_Trachea", "TabulaMuris_droplet_all", "TabulaMuris_droplet_Bladder", "TabulaMuris_droplet_Heart", "TabulaMuris_droplet_Kidney", "TabulaMuris_droplet_Liver", "TabulaMuris_droplet_Lung", "TabulaMuris_droplet_Mammary", "TabulaMuris_droplet_Marrow", "TabulaMuris_droplet_Muscle", "TabulaMuris_droplet_Spleen", "TabulaMuris_droplet_Thymus", "TabulaMuris_droplet_Tongue", "TabulaMuris_droplet_Trachea")
+datasets = c("70_Siletti_Hypothalamus.HTHma.MN_Human_2022", "71_Siletti_Hypothalamus.HTHpo.HTHso_Human_2022", "72_Siletti_Hypothalamus.HTHma.HTHtub_Human_2022", "73_Siletti_Hypothalamus.HTHso.HTHtub_Human_2022", "74_Siletti_Hypothalamus.HTHpo_Human_2022", "75_Siletti_Hypothalamus.HTHtub_Human_2022", "76_Siletti_Hypothalamus.HTHso_Human_2022", "77_Siletti_Hypothalamus.HTHma_Human_2022")
 step1 <- data.frame()
 for(ds in datasets){
+    f <- paste0(filedir, "magma_celltype_", ds, ".gsa.out")
+    if (file.exists(f)) {
 	tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_", ds, ".gsa.out"), data.table=F)
 	if("FULL_NAME" %in% colnames(tmp)){
 		tmp$VARIABLE <- tmp$FULL_NAME #convert VARIABLE to FULL_NAME
@@ -20,6 +23,7 @@ for(ds in datasets){
 	if(nrow(step1)==0){step1 <- tmp}
 	else{step1 <- rbind(step1, tmp)}
 }
+}
 
 step1$P.adj <- p.adjust(step1$P, method=adjPmeth) #add P.adj column 
 tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
@@ -27,10 +31,23 @@ colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
 write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 rm(tmp_out)
 
+# step1_tmp = fread(paste0(filedir, "magma_celltype_step1.txt"))
+# colnames(step1_tmp) = c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")
+# step1 = step1_tmp %>% filter(ds == "273_Bakken2021_AdultM1_Human_2021/cell_type_level_3/magma.gsa.out" | ds == "427_Phan2024_Human_2024_CaudateNucleus/cell_type_level_2/magma.gsa.out" | ds == "428_Phan2024_Human_2024_Putamen/cell_type_level_2/magma.gsa.out")
+# step1$ds[step1$ds=="273_Bakken2021_AdultM1_Human_2021/cell_type_level_3/magma.gsa.out"]<-"273_Bakken2021_AdultM1_Human_2021"
+# step1$ds[step1$ds=="427_Phan2024_Human_2024_CaudateNucleus/cell_type_level_2/magma.gsa.out"]<-"427_Phan2024_Human_2024_CaudateNucleus"
+# step1$ds[step1$ds=="428_Phan2024_Human_2024_Putamen/cell_type_level_2/magma.gsa.out"]<-"428_Phan2024_Human_2024_Putamen"
+
+
 step1 <- step1[which(step1$P.adj<0.05),]
 print(nrow(step1))
+
+step1$cond_state <- "single"
+step1$cond_cell_type <- NA
+
 if(nrow(step1)>1){
     step2_ds <- table(step1$ds)
+    print(step2_ds)
     if(length(which(step2_ds>1))==0){
         step1$cond_state <- "single"
         step1$cond_cell_type <- NA
