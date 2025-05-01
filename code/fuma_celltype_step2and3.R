@@ -1,13 +1,45 @@
 library(data.table)
 library(kimisc)
 library(dplyr)
+library(argparse)
 
-filedir="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/data/gwas_5_hypothalamus/"
-adjPmeth="bonferroni"
-magmadir="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/code/"
-magmafiles="/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/data/MAGMA"
+# Create argument parser
+parser <- ArgumentParser(description = 'Run step 2 and 3 of FUMA Cell Type')
 
-datasets = c("70_Siletti_Hypothalamus.HTHma.MN_Human_2022", "71_Siletti_Hypothalamus.HTHpo.HTHso_Human_2022", "72_Siletti_Hypothalamus.HTHma.HTHtub_Human_2022", "73_Siletti_Hypothalamus.HTHso.HTHtub_Human_2022", "74_Siletti_Hypothalamus.HTHpo_Human_2022", "75_Siletti_Hypothalamus.HTHtub_Human_2022", "76_Siletti_Hypothalamus.HTHso_Human_2022", "77_Siletti_Hypothalamus.HTHma_Human_2022")
+# Add arguments
+parser$add_argument("--filedir", type = "character", required = TRUE,
+                    help = "Path")
+parser$add_argument("--ids_file", type = "character", required = TRUE,
+                    help = "Path to ids")
+parser$add_argument("--adjPmeth", type = "character", default = "bonferroni",
+                    help = "Specify multiple correction methods. \
+                    Default to bonferroni. \
+                    Options are the same for p.adjust in R")
+parser$add_argument("--magmadir", type = "character", required = TRUE,
+                    help = "Directory where magma executable \
+                    is stored.")
+parser$add_argument("--magmafiles", type = "character", required = TRUE,
+                    help = "Directory where covariates files for magma \
+                    are stored.")
+parser$add_argument("--verbose", action = "store_true",
+                    help = "Enable verbose output")
+
+# Parse arguments
+args <- parser$parse_args()
+
+# Print parsed arguments
+if (args$verbose) {
+  cat("Verbose mode enabled\n")
+}
+
+
+filedir=args$filedir
+adjPmeth=args$adjPmeth
+magmadir=args$magmadir
+magmafiles=args$magmafiles
+
+dataset_df = fread(args$ids_file)
+datasets = dataset_df$ids
 step1 <- data.frame()
 for(ds in datasets){
     f <- paste0(filedir, "magma_celltype_", ds, ".gsa.out")
@@ -30,13 +62,6 @@ tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "
 colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
 write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 rm(tmp_out)
-
-# step1_tmp = fread(paste0(filedir, "magma_celltype_step1.txt"))
-# colnames(step1_tmp) = c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")
-# step1 = step1_tmp %>% filter(ds == "273_Bakken2021_AdultM1_Human_2021/cell_type_level_3/magma.gsa.out" | ds == "427_Phan2024_Human_2024_CaudateNucleus/cell_type_level_2/magma.gsa.out" | ds == "428_Phan2024_Human_2024_Putamen/cell_type_level_2/magma.gsa.out")
-# step1$ds[step1$ds=="273_Bakken2021_AdultM1_Human_2021/cell_type_level_3/magma.gsa.out"]<-"273_Bakken2021_AdultM1_Human_2021"
-# step1$ds[step1$ds=="427_Phan2024_Human_2024_CaudateNucleus/cell_type_level_2/magma.gsa.out"]<-"427_Phan2024_Human_2024_CaudateNucleus"
-# step1$ds[step1$ds=="428_Phan2024_Human_2024_Putamen/cell_type_level_2/magma.gsa.out"]<-"428_Phan2024_Human_2024_Putamen"
 
 
 step1 <- step1[which(step1$P.adj<0.05),]
