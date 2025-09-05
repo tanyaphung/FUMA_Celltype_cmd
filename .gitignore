@@ -1,2 +1,6 @@
 data/
 code/magma
+code/old
+code/fuma_celltype_step4.R
+code/prepare_data_for_step4.py
+code/fuma_celltype_step2and3_mod.R
