@@ -18,10 +18,6 @@ parser$add_argument("--out_fp", type = "character", required = TRUE,
 # Parse arguments
 args <- parser$parse_args()
 
-# step1_2_sum_fp = "scz/all_regions/step1_2_summary.txt"
-# step3_fp = "scz/all_regions/magma_celltype_step3.txt"
-# out_fp = "scz/all_regions/magma_celltype_step3_filtered.txt"
-
 step1_2_sum_fp = args$step1_2_sum_fp
 step3_fp = args$step3_fp
 out_fp = args$out_fp

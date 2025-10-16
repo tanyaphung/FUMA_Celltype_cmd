@@ -1,5 +1,4 @@
-# Date: 2025-07-15
-# The goal of this script is to combine the file magma_celltype_step1.txt for all regions
+# combine the file magma_celltype_step1.txt for all regions
 
 import argparse
 import os
@@ -8,11 +7,10 @@ import shutil
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--trait', required=True)
-parser.add_argument('--base_dir', required=True) #/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow
+parser.add_argument('--base_dir', required=True) 
 args = parser.parse_args()
 
-regions = ["forebrain", "midbrain", "hindbrain", "telencephalon", "diencephalon", "myelencephalon", "neocortex", "allocortex", "periallocortex", "pons", "cerebellum", "medulla", "thalamus", "hypothalamus", "frontalNeocortex", "parietalNeocortex", "occipitalNeocortex", "cingulateNeocortex", "temporalNeocortex", "insularNeocortex", "prefrontalCortex", "dorsolateralPrefrontalCortex", "orbitalFrontalCortex", "ventrolateralPrefrontalCortex", "middleTemporalGyrus", "primaryMotorCortex", "primarySomatosensoryCortex", "primaryAuditoryCortex", "primaryVisualCortex", "transientStructuresOfForebrain", "cerebralGyriandLobules", "whiteMatter", "cerebralNuclei", "vagalNucleus", "hippocampalGyrusFormation", "spinalCord"]
-# regions = ["forebrain", "primaryVisualCortex"]
+regions = ["forebrain", "midbrain", "hindbrain", "telencephalon", "diencephalon", "myelencephalon", "neocortex", "allocortex", "periallocortex", "pons", "cerebellum", "medulla", "thalamus", "hypothalamus", "frontalNeocortex", "parietalNeocortex", "occipitalNeocortex", "cingulateNeocortex", "temporalNeocortex", "insularNeocortex", "prefrontalCortex", "dorsolateralPrefrontalCortex", "orbitalFrontalCortex", "ventrolateralPrefrontalCortex", "middleTemporalGyrus", "primaryMotorCortex", "primarySomatosensoryCortex", "primaryAuditoryCortex", "primaryVisualCortex", "transientStructuresOfForebrain", "cerebralGyriandLobules", "whiteMatter", "cerebralNuclei", "vagalNucleus", "hippocampalGyrusFormation", "spinalCord", "meninges", "brain"]
 
 trait = args.trait
 base_dir = args.base_dir

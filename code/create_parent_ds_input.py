@@ -6,8 +6,8 @@ import argparse
 # This script combines the columns from the same parent study to use in modified step2 where we are doing within parent study conditional analysis.
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--ds_magma_dir', required=True) #example: /mnt/d/reference_data/MAGMA/celltype
-parser.add_argument('--parent_magma_dir', required=True) #example: /home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/fuma_632461/celltype/
+parser.add_argument('--ds_magma_dir', required=True) 
+parser.add_argument('--parent_magma_dir', required=True) 
 parser.add_argument('--ds_list', required=True)
 args = parser.parse_args()
 

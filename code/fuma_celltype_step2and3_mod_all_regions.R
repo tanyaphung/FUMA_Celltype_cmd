@@ -28,49 +28,9 @@ magmadir = args$magmadir
 magmafiles = args$magmafiles
 ds_list = args$ds_list
 
-# filedir = "/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/all_regions/"
-# adjPmeth = "bonferroni"
-# magmadir = "/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/code"
-# magmafiles = "/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/all_regions"
-# ds_list = "/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/all_regions/scrna_ds.txt"
-
 datasets_df = read.table(ds_list)
 colnames(datasets_df) = "datasets"
 datasets = datasets_df$datasets
-
-# unique_ds_count = c()
-
-# step1 <- data.frame()
-# for(ds in datasets){
-#     f <- paste0(filedir, "magma_celltype_", ds, ".gsa.out")
-#     if (file.exists(f)) {
-# 	tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_", ds, ".gsa.out"), data.table=F)
-# 	if("FULL_NAME" %in% colnames(tmp)){
-# 		tmp$VARIABLE <- tmp$FULL_NAME #convert VARIABLE to FULL_NAME
-# 		tmp <- tmp[,-ncol(tmp)] #remove the FULL_NAME column
-# 	}
-#     unique_ds_count = c(unique_ds_count, tmp$VARIABLE)
-#     tmp$VARIABLE <- paste0(strsplit(ds, "_")[[1]][1], "_", tmp$VARIABLE) #update variable to append the data set id at the front
-# 	tmp <- tmp[order(tmp$P),] #order by p values
-# 	tmp$ds <- ds #add ds column
-# 	tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth) #add P.adj.pds column 
-# 	if(nrow(step1)==0){step1 <- tmp}
-# 	else{step1 <- rbind(step1, tmp)}
-# }
-# }
-
-# step1$P.adj <- p.adjust(step1$P, method=adjPmeth) #add P.adj column 
-# tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
-# colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
-# write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
-# # rm(tmp_out)
-# print(length(unique(unique_ds_count)))
-# unique_ds_count_len = length(unique(unique_ds_count)) #TODO: fix this because the VARIABLE is now unique because I appended the dataset id
-# tmp_out = tmp_out[which(tmp_out$P<(0.05/unique_ds_count_len)),] #modified to do bonferroni correction for the number of unique cell types
-# print(nrow(tmp_out))
-# if (nrow(tmp_out) == 0) {print("There is no significant cell type after step 1")}
-
-# write.table(tmp_out, paste0(filedir, "magma_celltype_step1_sig.txt"), quote=F, row.names=F, sep="\t")
 
 step1 = fread(paste0(filedir, "magma_celltype_step1.txt"))
 
@@ -290,6 +250,7 @@ step3_ds <- unique(step1$parent_ds)
 ### condition average of the other dataset and pair-wise
 step3_avg <- data.frame()
 step3_cond <- data.frame()
+write.table(step1, "test.csv", quote=FALSE, row.names=FALSE, sep="\t")
 for(i in 1:(length(step3_ds)-1)){
     ds1 <- step3_ds[i]
     exp1 <- fread(paste0(magmafiles, "/celltype/", ds1, ".txt"), data.table=F)
@@ -298,6 +259,8 @@ for(i in 1:(length(step3_ds)-1)){
     colnames(exp1)[ncol(exp1)] <- "Average1"
     for(j in (i+1):length(step3_ds)){
     ds2 <- step3_ds[j]
+    print(ds2)
+    print(step1$parent_ds)
     exp2 <- fread(paste0(magmafiles, "/celltype/", ds2, ".txt"), data.table=F)
     exp2 <- exp2[,c("GENE", step1$Cell_type[step1$parent_ds==ds2], "Average")]
     colnames(exp2)[2:ncol(exp2)] <- paste(ds2, colnames(exp2)[2:ncol(exp2)], sep=":")

@@ -22,11 +22,11 @@ parser$add_argument("--ds_list", type = "character", required = TRUE,
 args <- parser$parse_args()
 
 
-filedir = args$filedir #/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/transientStructuresOfForebrain/
+filedir = args$filedir 
 adjPmeth = args$adjPmeth #bonferroni
-magmadir = args$magmadir #/home/tnphung/FUMA-dev/FUMA_Celltype_cmd/code
-magmafiles = args$magmafiles #/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/transientStructuresOfForebrain
-ds_list = args$ds_list #/home/tnphung/onedrive_documents/ctg/projects/gwas_celltype_atlas/analyses/modified_workflow/scz/transientStructuresOfForebrain/scrna_ds.txt
+magmadir = args$magmadir 
+magmafiles = args$magmafiles 
+ds_list = args$ds_list 
 
 datasets_df = read.table(ds_list)
 colnames(datasets_df) = "datasets"
@@ -59,7 +59,7 @@ colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
 write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 # rm(tmp_out)
 print(length(unique(unique_ds_count)))
-unique_ds_count_len = length(unique(unique_ds_count)) #TODO: fix this because the VARIABLE is now unique because I appended the dataset id
+unique_ds_count_len = length(unique(unique_ds_count)) 
 tmp_out = tmp_out[which(tmp_out$P<(0.05/unique_ds_count_len)),] #modified to do bonferroni correction for the number of unique cell types
 print(nrow(tmp_out))
 if (nrow(tmp_out) == 0) {print("There is no significant cell type after step 1")}
