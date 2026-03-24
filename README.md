@@ -1,5 +1,5 @@
 # FUMA_Celltype_cmd
-- This repo hosts codes for running FUMA Cell Type on the command line
+- This repo hosts codes for running FUMA Cell Type on the command line. 
 **Disclaimer:** use as own risk. I do not guarantee that the results will match 100% with the outputs from FUMA. 
 - The script `code/fuma_celltype_step2and3.R` is based off of the script https://github.com/vufuma/FUMA-webapp/blob/master/scripts/magma_celltype/magma_celltype.R (credit: Kyoko Watanabe). 
     - The original script was written to be run as part of FUMA Celltype.
