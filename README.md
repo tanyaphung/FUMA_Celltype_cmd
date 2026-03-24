@@ -4,7 +4,6 @@
 - The script `code/fuma_celltype_step2and3.R` is based off of the script https://github.com/vufuma/FUMA-webapp/blob/master/scripts/magma_celltype/magma_celltype.R (credit: Kyoko Watanabe). 
     - The original script was written to be run as part of FUMA Celltype.
     - I adapted the original script to make it into a standalone script that can be run locally on the command line, instead of having to submit to FUMA
-    - 
 
 - I set up a snakemake pipeline to run the Rscript: `code/fuma_celltype_step2_3.smk`. Examples to run: 
 ```
@@ -14,8 +13,25 @@ snakemake -s code/fuma_celltype_step2_3.smk --configfile code/config_fuma_ct_ste
 ## Instructions to run FUMA Cell type original workflow
 ### Step 1: 
 - snakemake: `code/fuma_celltype_step1.smk`
-- configfile: `code/config_fuma_ct_step1.json`
-    - See notes below for how to set up the config file
+- configfile: `code/config_fuma_ct_step1.json`. How to set up the config file for step 1:
+    - Content of the `gwas_dir` directory `/Processed_GWAS/magma/out/` contains a folder called `protein_coding_ensemble`. In it there are outputs from MAGMA. 
+    ```
+    ── protein_coding_ensemble
+        ├── gwas_10_protein_coding_ensemble_magma.genes.out
+        ├── gwas_10_protein_coding_ensemble_magma.genes.raw
+        ├── gwas_10_protein_coding_ensemble_magma.log
+        ├── gwas_10_protein_coding_ensemble_magma.log.suppl
+    ```
+    - Content of the `scrna_dir` directory `/Processed_scRNA/data/magma/` contains a folder for each scRNAseq. For example: 
+    ```
+    ── 14_Siletti_CerebralCortex.SMG_Human_2022
+    │   ├── cell_type_level_1
+    │   │   ├── means_cell_log_counts_pM.tsv
+    │   │   └── spec_cell_log_counts_pM.tsv
+    │   ├── cell_type_level_2
+    │   │   ├── means_cell_log_counts_pM.tsv
+    │   │   └── spec_cell_log_counts_pM.tsv
+    ```
 - run command: `snakemake -s fuma_celltype_step1.smk --rerun-incomplete -j -k --configfile config_fuma_ct_step1.json`
 
 ### Step 2 and 3: 
@@ -41,27 +57,6 @@ ids
 cp /Processed_scRNA/data/magma/14_Siletti_CerebralCortex.SMG_Human_2022/cell_type_level_2/means_cell_log_counts_pM.tsv /magma_covs/celltype/14_Siletti_CerebralCortex.SMG_Human_2022_level_2.txt
 ```
     - Note that the reason why this was set up this way was because the file structures for the processed scRNAseq data was set up first before implementing step2 and 3. TODO in the future is to make the file structure easier/less redundant. 
-
-**NOTES**
-#### Setting up the config file for step 1
-- Content of the `gwas_dir` directory `/Processed_GWAS/magma/out/` contains a folder called `protein_coding_ensemble`. In it there are outputs from MAGMA. 
-```
-── protein_coding_ensemble
-    ├── gwas_10_protein_coding_ensemble_magma.genes.out
-    ├── gwas_10_protein_coding_ensemble_magma.genes.raw
-    ├── gwas_10_protein_coding_ensemble_magma.log
-    ├── gwas_10_protein_coding_ensemble_magma.log.suppl
-```
-- Content of the `scrna_dir` directory `/Processed_scRNA/data/magma/` contains a folder for each scRNAseq. For example: 
-```
-── 14_Siletti_CerebralCortex.SMG_Human_2022
-│   ├── cell_type_level_1
-│   │   ├── means_cell_log_counts_pM.tsv
-│   │   └── spec_cell_log_counts_pM.tsv
-│   ├── cell_type_level_2
-│   │   ├── means_cell_log_counts_pM.tsv
-│   │   └── spec_cell_log_counts_pM.tsv
-```
 
 # Modified workflow
 - Modified FUMA cell type that was used in Phung et al. 202x
