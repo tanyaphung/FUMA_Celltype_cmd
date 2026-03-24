@@ -40,23 +40,24 @@ snakemake -s code/fuma_celltype_step2_3.smk --configfile code/config_fuma_ct_ste
 ```
 ids
 14_Siletti_CerebralCortex.SMG_Human_2022_level_2
-15_Siletti_CerebralCortex.Ig_Human_2022_level_2,
+15_Siletti_CerebralCortex.Ig_Human_2022_level_2
 16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022_level_2
 17_Siletti_CerebralCortex.PoCG.S1C_Human_2022_level_2
 18_Siletti_CerebralCortex.SCG.A25_Human_2022_level_2
 ```
 
-- Create a directory `celltype/{trait}/{region}/` 
+- Create a directory `/celltype/{trait}/{region}/` 
     - Move the outputs from step 1 to appropriate folder
     - Note that this was necessary when running multiple traits across multiple regions at the same time. 
     - Make sure that in this directory, the files are named `magma_celltype_{ds}.gsa.out` where `ds` is the dataset in the file `{region}_scrna_ids.txt`
     - In summary in this step, prepare the input folder in the correct format. This should be done programmically. Code will be provided soon. 
 
-- Create a directory `magma_covs/celltype`. The files in this directory are for example: `14_Siletti_CerebralCortex.SMG_Human_2022_level_2.txt`. One can do: 
+- Create a directory `/magma_covs/celltype`. The files in this directory are for example: `14_Siletti_CerebralCortex.SMG_Human_2022_level_2.txt`. One can do: 
 ```
 cp /Processed_scRNA/data/magma/14_Siletti_CerebralCortex.SMG_Human_2022/cell_type_level_2/means_cell_log_counts_pM.tsv /magma_covs/celltype/14_Siletti_CerebralCortex.SMG_Human_2022_level_2.txt
 ```
-    - Note that the reason why this was set up this way was because the file structures for the processed scRNAseq data was set up first before implementing step2 and 3. TODO in the future is to make the file structure easier/less redundant. 
+
+- Note that the reason why this was set up this way was because the file structures for the processed scRNAseq data was set up first before implementing step2 and 3. TODO in the future is to make the file structure easier/less redundant. 
 
 # Modified workflow
 - Modified FUMA cell type that was used in Phung et al. 202x
