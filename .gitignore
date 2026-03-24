@@ -4,3 +4,9 @@ code/prepare_data_for_step4.py
 code/fuma_celltype_step2and3_mod.R
 code/modified_fuma_celltype_step2_3.smk
 code/run_modified_fuma_celltype_step2_3.sh
+code/original_pipeline/submit_to_cluster.sh
+code/original_pipeline/config_fuma_ct_step1.json
+code/original_pipeline/config_fuma_ct_step2_3.json
+code/original_pipeline/fuma_celltype_step2_3.smk
+examples
+code/original_pipeline/fuma_celltype_step2and3.R

@@ -1,0 +1,23 @@
+{   
+    "magma_executable": "magma",
+    "gene_region": "protein_coding",
+    "gene_name": "ensemble",
+    "gwas_dir": "/Processed_GWAS/magma/out/",
+    "out_dir": "/out/fuma_ct",
+    "scrna_dir": "/Processed_scRNA/data/magma/",
+    "levels": ["cell_type_level_2"],
+    "traits": [
+        "ald"
+    ],
+    "scrnas": [
+        "70_Siletti_Hypothalamus.HTHma.MN_Human_2022",
+        "71_Siletti_Hypothalamus.HTHpo.HTHso_Human_2022",
+        "72_Siletti_Hypothalamus.HTHma.HTHtub_Human_2022",
+        "73_Siletti_Hypothalamus.HTHso.HTHtub_Human_2022",
+        "74_Siletti_Hypothalamus.HTHpo_Human_2022",
+        "75_Siletti_Hypothalamus.HTHtub_Human_2022",
+        "76_Siletti_Hypothalamus.HTHso_Human_2022",
+        "77_Siletti_Hypothalamus.HTHma_Human_2022"
+
+    ]
+}

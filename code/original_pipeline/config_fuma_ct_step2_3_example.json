@@ -1,0 +1,9 @@
+{
+    "traits": [
+        "ald"
+    ],
+    "regions": [
+        "Hypothalamus"
+    ],
+    "base_dir": "/examples/original_pipeline"
+}
