@@ -56,12 +56,12 @@ for(ds in datasets){
 step1$P.adj <- p.adjust(step1$P, method=adjPmeth) #add P.adj column 
 tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
 colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
-write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+# write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 # rm(tmp_out)
 print(length(unique(unique_ds_count)))
-unique_ds_count_len = length(unique(unique_ds_count)) 
-tmp_out = tmp_out[which(tmp_out$P<(0.05/unique_ds_count_len)),] #modified to do bonferroni correction for the number of unique cell types
-print(nrow(tmp_out))
-if (nrow(tmp_out) == 0) {print("There is no significant cell type after step 1")}
+# unique_ds_count_len = length(unique(unique_ds_count)) 
+# tmp_out = tmp_out[which(tmp_out$P<(0.05/unique_ds_count_len)),] #modified to do bonferroni correction for the number of unique cell types
+# print(nrow(tmp_out))
+# if (nrow(tmp_out) == 0) {print("There is no significant cell type after step 1")}
 
-write.table(tmp_out, paste0(filedir, "magma_celltype_step1_sig.txt"), quote=F, row.names=F, sep="\t")
+# write.table(tmp_out, paste0(filedir, "magma_celltype_step1_sig.txt"), quote=F, row.names=F, sep="\t")
